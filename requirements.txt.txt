@@ -1,5 +1,5 @@
 streamlit
-pymupdf==1.23.26
+pymupdf
 faiss-cpu
 sentence-transformers
 numpy
