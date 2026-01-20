@@ -1,5 +1,5 @@
 import streamlit as st
-import pymupdf as fitz
+import pdfplumber
 import faiss
 import numpy as np
 from sentence_transformers import SentenceTransformer
@@ -10,12 +10,15 @@ st.title("📘 FREE Study Assistant (PDF Reference Based)")
 embedder = SentenceTransformer("all-MiniLM-L6-v2")
 
 def extract_pdf_text(pdf_file):
-    doc = fitz.open(stream=pdf_file.read(), filetype="pdf")
     pages = []
-    for i, page in enumerate(doc):
-        text = page.get_text()
-        if text.strip():
-            pages.append({"text": text, "page": i + 1})
+    with pdfplumber.open(pdf_file) as pdf:
+        for i, page in enumerate(pdf.pages):
+            text = page.extract_text()
+            if text:
+                pages.append({
+                    "text": text,
+                    "page": i + 1
+                })
     return pages
 
 def chunk_text(pages, chunk_size=800, overlap=100):
@@ -78,4 +81,5 @@ if st.session_state.index:
         st.write(answer)
         st.markdown("### Reference Pages")
         st.write(ref_pages)
+
 
