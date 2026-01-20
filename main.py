@@ -1,5 +1,5 @@
 import streamlit as st
-import pdfplumber
+from PyPDF2 import PdfReader
 import faiss
 import numpy as np
 from sentence_transformers import SentenceTransformer
@@ -10,15 +10,16 @@ st.title("📘 FREE Study Assistant (PDF Reference Based)")
 embedder = SentenceTransformer("all-MiniLM-L6-v2")
 
 def extract_pdf_text(pdf_file):
+    reader = PdfReader(pdf_file)
     pages = []
-    with pdfplumber.open(pdf_file) as pdf:
-        for i, page in enumerate(pdf.pages):
-            text = page.extract_text()
-            if text:
-                pages.append({
-                    "text": text,
-                    "page": i + 1
-                })
+
+    for i, page in enumerate(reader.pages):
+        text = page.extract_text()
+        if text:
+            pages.append({
+                "text": text,
+                "page": i + 1
+            })
     return pages
 
 def chunk_text(pages, chunk_size=800, overlap=100):
@@ -81,5 +82,6 @@ if st.session_state.index:
         st.write(answer)
         st.markdown("### Reference Pages")
         st.write(ref_pages)
+
 
 
