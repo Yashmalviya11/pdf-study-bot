@@ -1,5 +1,5 @@
 import streamlit as st
-import fitz
+import pymupdf as fitz
 import faiss
 import numpy as np
 from sentence_transformers import SentenceTransformer
@@ -78,3 +78,4 @@ if st.session_state.index:
         st.write(answer)
         st.markdown("### Reference Pages")
         st.write(ref_pages)
+
