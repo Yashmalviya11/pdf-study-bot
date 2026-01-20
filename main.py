@@ -1,5 +1,5 @@
 import streamlit as st
-from PyPDF2 import PdfReader
+from pypdf import PdfReader
 import faiss
 import numpy as np
 from sentence_transformers import SentenceTransformer
@@ -82,6 +82,7 @@ if st.session_state.index:
         st.write(answer)
         st.markdown("### Reference Pages")
         st.write(ref_pages)
+
 
 
 
