@@ -1,5 +1,5 @@
 streamlit
-pdfplumber
+PyPDF2
 faiss-cpu
 sentence-transformers
 numpy
